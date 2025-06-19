@@ -14,12 +14,14 @@
         .banner, .footer { background-color: #fffaf0; padding: 30px 0; }
     </style>
 </head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
 <body>
     <!-- Top Bar -->
     <div class="d-flex justify-content-between px-4 py-2 bg-light">
-        <div>Delivery to 📍 4100 Bisset Street, Pokhara</div>
+        
         <div>
-            <a href="tel:+9779800000000">📞 +977 9800000000</a> | 
+            
             @guest <a href="{{ route('login') }}">Login</a> @endguest
             @auth <a href="{{ route('dashboard') }}">Dashboard</a> @endauth
         </div>
@@ -31,7 +33,7 @@
         <form class="d-flex w-50">
             <input class="form-control me-2" type="search" placeholder="Search for product..." />
         </form>
-        <div><a href="{{ url('/cart') }}">🛒 Cart</a></div>
+        
     </nav>
 
     <!-- Page Content -->

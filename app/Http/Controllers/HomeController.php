@@ -1,15 +1,14 @@
 <?php
 namespace App\Http\Controllers;
 
-
+use Illuminate\Http\Request;
 use App\Models\Product;
-use App\Models\Category;
+
 class HomeController extends Controller
 {
     public function index()
     {
-   $products = Product::all();ilter by category if needed
-        $categories = Category::all();
-        return view('home', compact('products'));
+        $products = Product::take(8)->get(); // or Product::all();
+        return view('welcome', compact('products')); // This passes $products to the Blade view
     }
 }
