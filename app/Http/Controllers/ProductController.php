@@ -3,66 +3,47 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    // Display a listing of the resource.
-    public function index()
+    // Show home page with latest 8 products
+    public function welcome()
     {
-        $products = Product::all();
-        return view('products.index', compact('products'));
-    }
-    public function home()
-{
-    $products = Product::where('category', '!=', 'Fruits & Vegetables')->take(8)->get();
-    return view('home', compact('products'));
-}
+        $products = Product::latest()->take(8)->get();
+        $categories = Category::all();
 
-
-    // Show the form for creating a new resource.
-    public function create()
-    {
-        return view('products.create');
+        return view('welcome', compact('products', 'categories'));
     }
 
-    // Store a newly created resource in storage.
-    public function store(Request $request)
+    // Product listing with category filter, search, and sort
+    public function index(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric',
-        ]);
+        $query = Product::query();
 
-        Product::create($request->all());
+        // Filter by category
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->category);
+        }
 
-        return redirect()->route('products.index')->with('success', 'Product created successfully.');
-    }
+        // Search
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
 
-    // Show the form for editing the specified resource.
-    public function edit(Product $product)
-    {
-        return view('products.edit', compact('product'));
-    }
+        // Sort by price
+        if ($request->sort === 'low_high') {
+            $query->orderBy('price', 'asc');
+        } elseif ($request->sort === 'high_low') {
+            $query->orderBy('price', 'desc');
+        } else {
+            $query->latest(); // Default: newest first
+        }
 
-    // Update the specified resource in storage.
-    public function update(Request $request, Product $product)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric',
-        ]);
+        $products = $query->paginate(8);
+        $categories = Category::all();
 
-        $product->update($request->all());
-
-        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
-    }
-
-    // Remove the specified resource from storage.
-    public function destroy(Product $product)
-    {
-        $product->delete();
-
-        return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
+        return view('products', compact('products', 'categories'));
     }
 }

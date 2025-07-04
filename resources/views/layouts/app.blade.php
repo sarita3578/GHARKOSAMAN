@@ -1,54 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>GharKoSaman | @yield('title')</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <style>
-        body { font-family: 'Segoe UI', sans-serif; }
-        .hero-banner { background-color: #f5f5f5; padding: 40px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .category-icon, .info-icon { font-size: 2rem; color: #2e8b57; }
-        .product-card { border: 1px solid #eee; border-radius: 10px; padding: 10px; text-align: center; }
-        .banner, .footer { background-color: #fffaf0; padding: 30px 0; }
-    </style>
+<!-- Bootstrap CSS CDN -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-
 <body>
-    <!-- Top Bar -->
-    <div class="d-flex justify-content-between px-4 py-2 bg-light">
-        
+    <div class="top-bar bg-primary text-white p-2 d-flex justify-content-end align-items-center">
         <div>
-            
-            @guest <a href="{{ route('login') }}">Login</a> @endguest
-            @auth <a href="{{ route('dashboard') }}">Dashboard</a> @endauth
+            @guest
+                <a href="{{ route('login') }}" class="text-decoration-none me-3 text-white">Login</a>
+                <a href="{{ route('register') }}" class="text-decoration-none me-3 text-white">Register</a>
+            @endguest
+
+            @auth
+                @if(auth()->user()->role === 'admin')
+                    <a href="{{ route('admin.dashboard') }}" class="text-decoration-none me-3 text-white">Admin Dashboard</a>
+                @elseif(auth()->user()->role === 'delivery')
+                    <a href="{{ route('delivery.dashboard') }}" class="text-decoration-none me-3 text-white">Delivery Dashboard</a>
+                @else
+                    <a href="{{ route('user.dashboard') }}" class="text-decoration-none me-3 text-white">User Dashboard</a>
+                @endif
+
+                <a href="#"
+                   class="text-decoration-none text-white"
+                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    Logout
+                </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
+                    @csrf
+                </form>
+            @endauth
         </div>
     </div>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4">
-        <a class="navbar-brand" href="{{ url('/') }}">GharKoSaman</a>
-        <form class="d-flex w-50">
-            <input class="form-control me-2" type="search" placeholder="Search for product..." />
-        </form>
-        
-    </nav>
-
-    <!-- Page Content -->
-    <main class="container my-4">
+    <div class="container mt-4">
         @yield('content')
-    </main>
+    </div>
 
-    <!-- Footer -->
-    <footer class="footer text-center">
-        <div class="container">
-            <p>&copy; 2025 GharKoSaman | Built with Laravel</p>
-        </div>
-    </footer>
-
+    <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

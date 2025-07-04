@@ -1,35 +1,67 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to GharKoSaman</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Tailwind CSS CDN for modern minimalist design -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-@section('title', 'Welcome to GharKoSaman')
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
 
-@section('content')
-<div class="container py-5">
+    <!-- Header -->
+    <header class="p-6 shadow-sm bg-white sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-green-600">GharKoSaman</h1>
+            <nav class="space-x-4">
+                <a href="/products" class="text-gray-700 hover:text-green-600">Products</a>
+                <a href="/login" class="text-gray-700 hover:text-green-600">Login</a>
+                <a href="/register" class="text-gray-700 hover:text-green-600">Register</a>
+            </nav>
+        </div>
+    </header>
 
-    {{-- Hero Section --}}
-    <div class="text-center mb-5">
-        <h1 class="display-4 fw-bold">Welcome to GharKoSaman</h1>
-        <p class="lead text-muted">Your trusted partner for daily essentials, delivered instantly in Pokhara!</p>
-        <a href="{{ route('products.index') }}" class="btn btn-success px-4 py-2">Shop Now</a>
-    </div>
+    <!-- Hero Section -->
+    <section class="text-center py-20 bg-green-50">
+        <h2 class="text-4xl md:text-5xl font-bold mb-4">Fast Delivery in Pokhara</h2>
+        <p class="text-lg text-gray-600 mb-8 max-w-xl mx-auto">
+            Your daily essentials delivered instantly — no more waiting for 2-3 days like other platforms.
+        </p>
+        <a href="/products" class="bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-700 transition">Shop Now</a>
+    </section>
 
-    {{-- Top Products Section --}}
-    <h2 class="mb-4">Top Products</h2>
-
-    <div class="row row-cols-1 row-cols-md-4 g-4">
-        @foreach ($products as $product)
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <img src="{{ asset($product->images_url) }}" class="card-img-top" alt="{{ $product->name }}" style="height: 200px; object-fit: contain;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">{{ $product->name }}</h5>
-                        <p class="card-text text-muted">Rs. {{ $product->price }}</p>
-                        <a href="#" class="btn btn-outline-success btn-sm">Add to Cart</a>
-                    </div>
-                </div>
+    <!-- Features -->
+    <section class="py-16 bg-white">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 text-center">
+            <div>
+                <div class="text-green-600 text-4xl mb-2">🚚</div>
+                <h3 class="text-xl font-semibold">Instant Delivery</h3>
+                <p class="text-gray-600 mt-2">Get your goods delivered within hours inside Pokhara.</p>
             </div>
-        @endforeach
-    </div>
+            <div>
+                <div class="text-green-600 text-4xl mb-2">🛒</div>
+                <h3 class="text-xl font-semibold">Non-perishable Items</h3>
+                <p class="text-gray-600 mt-2">All your dry groceries, personal care, and household items.</p>
+            </div>
+            <div>
+                <div class="text-green-600 text-4xl mb-2">💳</div>
+                <h3 class="text-xl font-semibold">Easy Payments</h3>
+                <p class="text-gray-600 mt-2">Pay via Cash on Delivery or digital wallets.</p>
+            </div>
+        </div>
+    </section>
 
-</div>
-@endsection
+    <!-- Footer -->
+    <footer class="bg-gray-100 text-center p-6 text-sm text-gray-500">
+        &copy; {{ date('Y') }} GharKoSaman. Made with ❤️ in Pokhara.
+    </footer>
 
+</body>
+</html>

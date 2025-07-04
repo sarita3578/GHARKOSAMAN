@@ -9,12 +9,9 @@ class RouteServiceProvider extends ServiceProvider
 {
     /**
      * The path to the "home" route for your application.
-     *
-     * This is used by Laravel authentication to redirect users after login.
-     *
-     * @var string
+     * This is used by Laravel to redirect after login.
      */
-    public const HOME = '/dashboard';
+    public const HOME = '/dashboard'; // ✅ This redirects users to welcome.blade.php after login
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -30,7 +27,6 @@ class RouteServiceProvider extends ServiceProvider
     public function map(): void
     {
         $this->mapWebRoutes();
-
         $this->mapApiRoutes();
     }
 
@@ -40,7 +36,6 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes(): void
     {
         Route::middleware('web')
-            ->namespace($this->namespace)
             ->group(base_path('routes/web.php'));
     }
 
@@ -51,7 +46,6 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('api')
             ->middleware('api')
-            ->namespace($this->namespace)
             ->group(base_path('routes/api.php'));
     }
 }

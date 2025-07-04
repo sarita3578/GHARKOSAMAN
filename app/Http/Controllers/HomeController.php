@@ -3,12 +3,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function welcome()
     {
-        $products = Product::take(8)->get(); // or Product::all();
-        return view('welcome', compact('products')); // This passes $products to the Blade view
+        // Load 6 most viewed products
+        $popularProducts = Product::latest()->take(6)->get();
+
+
+        // Load all categories
+        $categories = Category::all();
+
+        // Pass data to welcome view
+        return view('welcome', compact('popularProducts', 'categories'));
     }
 }
+
